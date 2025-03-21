@@ -1,56 +1,13 @@
-name: Auto Label PRs
+name: PR Branch Labeler
 
-on:
-  pull_request:
-    types: [opened, reopened]
-
-env:
-    GH_TOKEN: ${{ github.token }}
+on: pull_request
 
 jobs:
-  label_pr:
+  label_prs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Add Label Based on Target Branch
-        env:
-          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
-          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
-        run: |
-          LABEL=""
-
-          case "$BASE_BRANCH" in
-            "main")
-              LABEL="dev"
-              ;;
-            "qa-frontend")
-              LABEL="qa"
-              ;;
-            "uat-frontend")
-              LABEL="uat"
-              ;;
-          esac
-
-          if [[ "$HEAD_BRANCH" == "main" && "$BASE_BRANCH" == "qa-frontend" ]]; then
-            LABEL="dev-to-qa"
-          elif [[ "$HEAD_BRANCH" == "qa-frontend" && "$BASE_BRANCH" == "uat-frontend" ]]; then
-            LABEL="qa-to-uat"
-          elif [[ "$HEAD_BRANCH" == "main" && "$BASE_BRANCH" == "uat-frontend" ]]; then
-            LABEL="dev-to-uat"
-          fi
-
-          if [[ -n "$LABEL" ]]; then
-            echo "{\"labels\":[\"$LABEL\"]}" > labels.json
-            gh api \
-              -X POST \
-              -H "Authorization: token $REPO_TOKEN" \
-              -H "Accept: application/vnd.github.v3+json" \
-              "/repos/${{ github.repository }}/issues/$PR_NUMBER/labels" \
-              --input labels.json
-          else
-            echo "No matching label found. Skipping..."
-          fi
+      - name: Label PRs
+        if: github.event.action == 'opened' # Only run the action when the PR was first opened
+        uses: ffittschen/pr-branch-labeler@v1
+        with:
+          repo-token: ${{ secrets.REPO_TOKEN }}
