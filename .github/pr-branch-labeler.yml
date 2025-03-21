@@ -1,20 +1,20 @@
 # Apply label "🚀 Dev" if head branch matches dev-frontend
 🚀 Dev:
-  head: "dev-frontend"
-  base: "MV-*"
+  base: "dev-frontend"
+  head: "MV-*"
 
 🧪 QA:
-  head: "qa-frontend"
-  base: "MV-*"
+  base: "qa-frontend"
+  head: "MV-*"
 
 ✅ UAT:
-  head: "uat-frontend"
-  base: "MV-*"
+  base: "uat-frontend"
+  head: "MV-*"
 
 🧪 QA to ✅ UAT:
-  head: "uat-frontend"
-  base: "qa-frontend"
+  base: "uat-frontend"
+  head: "qa-frontend"
 
 🚀 Dev to 🧪 QA:
-  head: "qa-frontend"
-  base: "dev-frontend"
+  base: "qa-frontend"
+  head: "dev-frontend"
