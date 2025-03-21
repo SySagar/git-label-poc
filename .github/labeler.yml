@@ -8,10 +8,10 @@
 ✅ UAT:
   - base-branch: "uat-frontend"
 
-🧪 QA to ✅ UAT:
-  - base-branch: "uat-frontend"
-    head-branch: "qa-frontend"
+# 🧪 QA to ✅ UAT:
+#   - base-branch: "uat-frontend"
+#     head-branch: "qa-frontend"
 
-🚀 Dev to 🧪 QA:
-  - base-branch: "qa-frontend"
-    head-branch: "dev-frontend"
+# 🚀 Dev to 🧪 QA:
+#   - base-branch: "qa-frontend"
+#     head-branch: "dev-frontend"
